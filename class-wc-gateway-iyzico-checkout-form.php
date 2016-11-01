@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
- * Plugin URI: https://www.iyzico.com
+ * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
  * Version: 1.0.0
  * Author: KahveDigital
@@ -12,7 +12,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-define('API_URL_FORM', 'https://sandbox-api.iyzipay.com');
+define('API_URL_FORM', 'https://api.iyzipay.com');
 global $iyzico_db_version;
 $iyzico_db_version = '1.0';
 
@@ -155,13 +155,13 @@ function woocommerce_iyzico_checkout_from_init() {
                     'title' => __('Title', 'iyzico-woocommerce-checkout-form'),
                     'type' => 'text',
                     'description' => __('This message will show to the user during checkout.', 'iyzico-woocommerce-checkout-form'),
-                    'default' => '?deme Yap'
+                    'default' => 'Ödeme Yap'
                 ),
                 'description' => array(
                     'title' => __('Description', 'iyzico-woocommerce-checkout-form'),
                     'type' => 'text',
                     'description' => __('This controls the description which the user sees during checkout.', 'iyzico-woocommerce-checkout-form'),
-                    'default' => __('Pay with your credit card via İyzico.', 'iyzico-woocommerce-checkout-form'),
+                    'default' => __('Pay with your credit card via iyzico.', 'iyzico-woocommerce-checkout-form'),
                     'desc_tip' => true,
                 ),
                 'live_form_api_id' => array(

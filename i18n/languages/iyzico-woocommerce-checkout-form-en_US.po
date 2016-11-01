@@ -97,5 +97,5 @@ msgstr "Invalid Token"
 msgid "Invalid request"
 msgstr "Invalid request"
 
-msgid "Please sure the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
+msgid "Please make sure that the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
 msgstr "Please sure the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."

@@ -17,25 +17,25 @@ msgid "iyzico Checkout"
 msgstr "iyzico Ödeme"
 
 msgid "Proceed to iyzico checkout"
-msgstr "Ödeme iyzico geçin"
+msgstr "iyzico ile ödeyin"
 
 msgid "Enable/Disable"
-msgstr "Enable / Disable"
+msgstr "Aktifleştir / Pasifleştir"
 
 msgid "Enable iyzico checkout"
-msgstr "Iyzico ödeme etkinleştirin"
+msgstr "iyzico ile ödemeyi etkinleştir"
 
 msgid "Title"
-msgstr "başlık"
+msgstr "Başlık"
 
 msgid "This message will show to the user during checkout."
 msgstr "Bu mesaj ödeme sırasında kullanıcıya gösterecektir."
 
 msgid "Description"
-msgstr "tanım"
+msgstr "Tanım"
 
 msgid "Installment"
-msgstr "taksit"
+msgstr "Taksit"
 
 msgid "Payment Mode"
 msgstr "Ödeme Modu"
@@ -53,25 +53,25 @@ msgid "Please use the iyzico panel for partial refund. Iyzico Panel link https:/
 msgstr "Parçalı iade işlemi için lütfen iyzico panelini kullanın  Iyzico Panel link https://merchant.iyzipay.com/login"
 
 msgid "Thank you for your order, please click the button below to pay with iyzico Checkout."
-msgstr "Siparişiniz için teşekkür ederiz, iyzico Ödeme ile ödeme için aşağıdaki düğmeyi tıklayın."
+msgstr "Siparişiniz için teşekkür ederiz, iyzico ile ödemek için aşağıdaki düğmeyi tıklayın."
 
 msgid "Thank you for shopping with us. Your account has been charged and your transaction is successful."
-msgstr "Bizimle alışveriş için teşekkür ederiz. Hesabınız suçlanıyor ve işlem başarılı."
+msgstr "Teşekkürler. İşlem başarılı."
 
 msgid "Installment Fee"
 msgstr "Taksit Ücreti"
 
 msgid "Iyzico Transaction ID"
-msgstr "Iyzico Transaction ID"
+msgstr "iyzico Transaction ID"
 
 msgid "Thank you for shopping with us. However, the transaction has been declined."
-msgstr "Bizimle alışveriş için teşekkür ederiz. Ancak, işlem reddedildi."
+msgstr "Üzgünüz, işlem reddedildi."
 
 msgid "Transaction ERROR"
 msgstr "İşlem HATA"
 
 msgid "Error"
-msgstr "hata"
+msgstr "Hata"
 
 msgid "iyzico Checkout does not support your store currency."
 msgstr "iyzico ödeme formu para biriminizi desteklememektedir."
@@ -86,7 +86,7 @@ msgid "Invalid request"
 msgstr "Geçersiz istek"
 
 msgid "Security error. Illegal access detected."
-msgstr "Güvenlik Hatası (illegal access detected.)"
+msgstr "Güvenlik Hatası (Yetki hatası.)"
 
-msgid "Please sure the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
-msgstr "Girdiğiniz kur değeri sistem tarafından desteklenmemektedir. Lütfen kur değerinin TL, USD, EUR, GBP veya IRR olduğundan emin olunuz."
+msgid "Please make sure that the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
+msgstr ""
