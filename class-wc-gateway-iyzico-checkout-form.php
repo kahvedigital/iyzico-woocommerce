@@ -509,7 +509,7 @@ class iyzicocheckoutformGateway {
         $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
 
         if (!in_array($this->_wcOrder->get_order_currency(), $valid_currency)) {
-            $response = __('Please sure the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values.', 'iyzico-woocommerce-checkout-form');
+            $response = __('Please make sure that the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values.', 'iyzico-woocommerce-checkout-form');
             return $response;
         }
 
