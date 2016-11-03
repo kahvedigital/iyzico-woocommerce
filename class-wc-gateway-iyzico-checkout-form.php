@@ -281,7 +281,9 @@ function woocommerce_iyzico_checkout_from_init() {
                 return true;
             } else {
                 $order->add_order_note(__('Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
-                return false;
+			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
+			return false;
+            
             }
         }
 
