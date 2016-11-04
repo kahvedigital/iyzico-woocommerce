@@ -17,7 +17,7 @@ msgid "iyzico Checkout"
 msgstr "iyzico Checkout"
 
 msgid "Proceed to iyzico checkout"
-msgstr "Proceed to iyzico checkout"
+msgstr "Pay"
 
 msgid "Enable/Disable"
 msgstr "Enable/Disable"
@@ -71,7 +71,7 @@ msgid "Installment Fee"
 msgstr "Installment Fee"
 
 msgid "Pay with your credit card via iyzico."
-msgstr "Pay with your credit card via iyzico."
+msgstr "Online payment by card"
 
 msgid "Payment successful."
 msgstr "Payment successful."

@@ -155,7 +155,7 @@ function woocommerce_iyzico_checkout_from_init() {
                     'title' => __('Title', 'iyzico-woocommerce-checkout-form'),
                     'type' => 'text',
                     'description' => __('This message will show to the user during checkout.', 'iyzico-woocommerce-checkout-form'),
-                    'default' => 'Ödeme Yap'
+                    'default' => 'Online Ödeme'
                 ),
                 'description' => array(
                     'title' => __('Description', 'iyzico-woocommerce-checkout-form'),

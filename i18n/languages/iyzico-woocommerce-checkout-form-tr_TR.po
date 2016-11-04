@@ -17,7 +17,7 @@ msgid "iyzico Checkout"
 msgstr "iyzico Ödeme"
 
 msgid "Proceed to iyzico checkout"
-msgstr "Kart ile online ödeme"
+msgstr "Ödeme Yap"
 
 msgid "Enable/Disable"
 msgstr "Aktifleştir / Pasifleştir"
@@ -38,7 +38,7 @@ msgid "Installment"
 msgstr "Taksit"
 
 msgid "Pay with your credit card via iyzico."
-msgstr "iyzico üzerinden kredi kartı ile ödeme."
+msgstr "Kart ile online ödeme"
 
 msgid "Payment Mode"
 msgstr "Ödeme Modu"
