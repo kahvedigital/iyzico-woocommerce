@@ -155,7 +155,7 @@ function woocommerce_iyzico_checkout_from_init() {
                     'title' => __('Title', 'iyzico-woocommerce-checkout-form'),
                     'type' => 'text',
                     'description' => __('This message will show to the user during checkout.', 'iyzico-woocommerce-checkout-form'),
-                    'default' => 'Kart ile online ödeme'
+                    'default' => 'Ödeme Yap'
                 ),
                 'description' => array(
                     'title' => __('Description', 'iyzico-woocommerce-checkout-form'),
@@ -280,8 +280,8 @@ function woocommerce_iyzico_checkout_from_init() {
                 }
                 return true;
             } else {
-                $order->add_order_note(__('Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
-			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
+                $order->add_order_note(__('Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
+			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
 			return false;
             
             }

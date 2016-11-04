@@ -17,7 +17,7 @@ msgid "iyzico Checkout"
 msgstr "iyzico Ödeme"
 
 msgid "Proceed to iyzico checkout"
-msgstr "iyzico ile ödeyin"
+msgstr "Kart ile online ödeme"
 
 msgid "Enable/Disable"
 msgstr "Aktifleştir / Pasifleştir"
@@ -53,7 +53,7 @@ msgid "Live Merchant Secret Key"
 msgstr "Üye İşyeri Canlı Güvenlik Anahtarı"
 
 msgid "Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login"
-msgstr "Parçalı iade işlemi için lütfen iyzico panelini kullanın  Iyzico Panel link https://merchant.iyzipay.com/login"
+msgstr "Parçalı iade işlemi için lütfen iyzico panelini kullanın  iyzico Panel link https://merchant.iyzipay.com/login"
 
 msgid "Thank you for your order, please click the button below to pay with iyzico Checkout."
 msgstr "Siparişiniz için teşekkür ederiz, iyzico ile ödemek için aşağıdaki düğmeyi tıklayın."
