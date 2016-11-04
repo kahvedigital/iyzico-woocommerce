@@ -37,6 +37,9 @@ msgstr "Tanım"
 msgid "Installment"
 msgstr "Taksit"
 
+msgid "Pay with your credit card via iyzico."
+msgstr "iyzico üzerinden kredi kartı ile ödeme."
+
 msgid "Payment Mode"
 msgstr "Ödeme Modu"
 
