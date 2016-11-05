@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
+
+# This file is distributed under the GNU General Public License v2 or later.
+msgid "iyzico Checkout"
+msgstr "iyzico Checkout"
+
+msgid "Proceed to iyzico checkout"
+msgstr "Pay"
+
+msgid "Enable/Disable"
+msgstr "Enable/Disable"
+
+msgid "Enable iyzico checkout"
+msgstr "Enable iyzico checkout"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "This message will show to the user during checkout."
+msgstr "This message will show to the user during checkout."
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Installment"
+msgstr "Installment"
+
+msgid "Payment Mode"
+msgstr "Payment Mode"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Live"
+msgstr "Live"
+
+msgid "Test Merchant API ID"
+msgstr "Test Merchant API ID"
+
+msgid "Test Merchant Secret Key"
+msgstr "Test Merchant Secret Key"
+
+msgid "Live Merchant API ID"
+msgstr "Live Merchant API ID"
+
+msgid "Live Merchant Secret Key"
+msgstr "Live Merchant Secret Key"
+
+msgid "Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login"
+msgstr "Please use the iyzico panel for partial refund. Iyzico Panel link https://merchant.iyzipay.com/login"
+
+msgid "Thank you for your order, please click the button below to pay with iyzico Checkout."
+msgstr "Thank you for your order, please click the button below to pay with iyzico Checkout."
+
+msgid "Thank you for shopping with us. Your account has been charged and your transaction is successful."
+msgstr "Thank you for shopping with us. Your account has been charged and your transaction is successful."
+
+msgid "Installment Fee"
+msgstr "Installment Fee"
+
+msgid "Pay with your credit card via iyzico."
+msgstr "Online payment by card"
+
+msgid "Payment successful."
+msgstr "Payment successful."
+
+msgid "Iyzico Transaction ID"
+msgstr "Iyzico Transaction ID"
+
+msgid "Thank you for shopping with us. However, the transaction has been declined."
+msgstr "Thank you for shopping with us. However, the transaction has been declined."
+
+msgid "Transaction ERROR"
+msgstr "Transaction ERROR"
+
+msgid "Security error. Illegal access detected."
+msgstr "Security error. Illegal access detected."
+
+msgid "Error"
+msgstr "Error"
+
+msgid "iyzico Checkout does not support your store currency."
+msgstr "iyzico Checkout does not support your store currency."
+
+msgid "Invalid Token"
+msgstr "Invalid Token"
+
+msgid "Invalid request"
+msgstr "Invalid request"
+
+msgid "Please make sure that the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
+msgstr "Please sure the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values."
