@@ -219,7 +219,7 @@ function woocommerce_iyzico_checkout_from_init() {
             }
         }
 
-        function process_refund($order_id, $amount = null) {
+        function process_refund($order_id, $amount = null, $reason = '') {
             global $wpdb;
 
             $order = new WC_Order($order_id);
