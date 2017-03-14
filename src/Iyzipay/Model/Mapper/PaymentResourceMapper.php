@@ -77,6 +77,12 @@ class PaymentResourceMapper extends IyzipayResourceMapper
         if (isset($jsonObject->connectorName)) {
             $paymentResource->setConnectorName($jsonObject->connectorName);
         }
+        if (isset($jsonObject->authCode)) {
+            $paymentResource->setAuthCode($jsonObject->authCode);
+        }
+        if (isset($jsonObject->phase)) {
+            $paymentResource->setPhase($jsonObject->phase);
+        }
         return $paymentResource;
     }
 
