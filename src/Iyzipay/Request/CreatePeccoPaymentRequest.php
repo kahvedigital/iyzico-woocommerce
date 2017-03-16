@@ -6,24 +6,24 @@ use Iyzipay\JsonBuilder;
 use Iyzipay\Request;
 use Iyzipay\RequestStringBuilder;
 
-class CreateApprovalRequest extends Request
+class CreatePeccoPaymentRequest extends Request
 {
-    private $paymentTransactionId;
+    private $token;
 
-    public function getPaymentTransactionId()
+    public function getToken()
     {
-        return $this->paymentTransactionId;
+        return $this->token;
     }
 
-    public function setPaymentTransactionId($paymentTransactionId)
+    public function setToken($token)
     {
-        $this->paymentTransactionId = $paymentTransactionId;
+        $this->token = $token;
     }
 
     public function getJsonObject()
     {
         return JsonBuilder::fromJsonObject(parent::getJsonObject())
-            ->add("paymentTransactionId", $this->getPaymentTransactionId())
+            ->add("token", $this->getToken())
             ->getObject();
     }
 
@@ -31,7 +31,7 @@ class CreateApprovalRequest extends Request
     {
         return RequestStringBuilder::create()
             ->appendSuper(parent::toPKIRequestString())
-            ->append("paymentTransactionId", $this->getPaymentTransactionId())
+            ->append("token", $this->getToken())
             ->getRequestString();
     }
 }

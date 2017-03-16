@@ -6,7 +6,7 @@ use Iyzipay\JsonBuilder;
 use Iyzipay\Request;
 use Iyzipay\RequestStringBuilder;
 
-class CreateCheckoutFormInitializeRequest extends Request
+class CreatePeccoInitializeRequest extends Request
 {
     private $price;
     private $paidPrice;
@@ -19,10 +19,6 @@ class CreateCheckoutFormInitializeRequest extends Request
     private $billingAddress;
     private $basketItems;
     private $callbackUrl;
-    private $forceThreeDS;
-    private $cardUserKey;
-    private $posOrderId;
-    private $enabledInstallments;
 
     public function getPrice()
     {
@@ -134,46 +130,6 @@ class CreateCheckoutFormInitializeRequest extends Request
         $this->callbackUrl = $callbackUrl;
     }
 
-    public function getForceThreeDS()
-    {
-        return $this->forceThreeDS;
-    }
-
-    public function setForceThreeDS($forceThreeDS)
-    {
-        $this->forceThreeDS = $forceThreeDS;
-    }
-
-    public function getCardUserKey()
-    {
-        return $this->cardUserKey;
-    }
-
-    public function setCardUserKey($cardUserKey)
-    {
-        $this->cardUserKey = $cardUserKey;
-    }
-
-    public function getPosOrderId()
-    {
-        return $this->posOrderId;
-    }
-
-    public function setPosOrderId($posOrderId)
-    {
-        $this->posOrderId = $posOrderId;
-    }
-
-    public function setEnabledInstallments($enabledInstallments)
-    {
-        $this->enabledInstallments = $enabledInstallments;
-    }
-
-    public function getEnabledInstallments()
-    {
-        return $this->enabledInstallments;
-    }
-
     public function getJsonObject()
     {
         return JsonBuilder::fromJsonObject(parent::getJsonObject())
@@ -187,11 +143,7 @@ class CreateCheckoutFormInitializeRequest extends Request
             ->add("callbackUrl", $this->getCallbackUrl())
             ->add("paymentSource", $this->getPaymentSource())
             ->add("currency", $this->getCurrency())
-            ->add("posOrderId", $this->getPosOrderId())
             ->addPrice("paidPrice", $this->getPaidPrice())
-            ->add("forceThreeDS", $this->getForceThreeDS())
-            ->add("cardUserKey", $this->getCardUserKey())
-            ->addArray("enabledInstallments", $this->getEnabledInstallments())
             ->getObject();
     }
 
@@ -209,11 +161,7 @@ class CreateCheckoutFormInitializeRequest extends Request
             ->append("callbackUrl", $this->getCallbackUrl())
             ->append("paymentSource", $this->getPaymentSource())
             ->append("currency", $this->getCurrency())
-            ->append("posOrderId", $this->getPosOrderId())
             ->appendPrice("paidPrice", $this->getPaidPrice())
-            ->append("forceThreeDS", $this->getForceThreeDS())
-            ->append("cardUserKey", $this->getCardUserKey())
-            ->appendArray("enabledInstallments", $this->getEnabledInstallments())
             ->getRequestString();
     }
 }
