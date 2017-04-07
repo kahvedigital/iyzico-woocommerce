@@ -598,6 +598,9 @@ class iyzicocheckoutformGateway {
         $billing_address->setContactName($billing_full_name);
         $billing_address->setCity($city);
         $billing_address->setCountry($country);
+		if(empty($customer_shipping_address)){
+			$customer_shipping_address=$customer_billing_address;
+		}
         $billing_address->setAddress($customer_billing_address);
         $billing_address->setZipCode($postcode);
         $request->setBillingAddress($billing_address);
