@@ -1,8 +1,8 @@
 === iyzico-payment-module ===
 Contributors: KahveDigital
 Tags: payment, iyzico, payment module
-Requires at least: 1.0.1
-Stable tag: 1.0.1
+Requires at least: 1.0.3
+Stable tag: 1.0.3
 License: LGPL v3.0 
 License URI: https://www.gnu.org/licenses/lgpl-3.0.en.html
 
