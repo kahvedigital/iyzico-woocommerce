@@ -598,17 +598,17 @@ class iyzicocheckoutformGateway {
         $billing_address->setContactName($billing_full_name);
         $billing_address->setCity($city);
         $billing_address->setCountry($country);
-		if(empty($customer_shipping_address)){
-			$customer_shipping_address=$customer_billing_address;
-		}
         $billing_address->setAddress($customer_billing_address);
         $billing_address->setZipCode($postcode);
         $request->setBillingAddress($billing_address);
 
         $shipping_full_name = $this->_wcOrder->get_formatted_shipping_full_name();
-        $shipping_full_name = !empty($shipping_full_name) ? $shipping_full_name : "NOT PROVIDED";
-        $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
-        $customer_shipping_address = !empty($customer_shipping_address) ? $customer_shipping_address : "NOT PROVIDED";
+        $shipping_full_name = empty($shipping_full_name) ? $shipping_full_name : "NOT PROVIDED";
+     	if(empty($this->_wcOrder->shipping_address_1)){
+						$customer_shipping_address=$customer_billing_address;
+		}else{
+			   $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
+		}
         $shipping_address = new \Iyzipay\Model\Address();
         $shipping_address->setContactName($shipping_full_name);
         $shipping_address->setCity($shipping_city);
