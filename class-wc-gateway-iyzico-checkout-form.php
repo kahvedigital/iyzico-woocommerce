@@ -281,9 +281,8 @@ function woocommerce_iyzico_checkout_from_init() {
                 return true;
             } else {
                 $order->add_order_note(__('Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
-			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
-			return false;
-            
+                return new WP_Error('broke', __("Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form"));
+                return false;
             }
         }
 
@@ -604,11 +603,11 @@ class iyzicocheckoutformGateway {
 
         $shipping_full_name = $this->_wcOrder->get_formatted_shipping_full_name();
         $shipping_full_name = empty($shipping_full_name) ? $shipping_full_name : "NOT PROVIDED";
-     	if(empty($this->_wcOrder->shipping_address_1)){
-						$customer_shipping_address=$customer_billing_address;
-		}else{
-			   $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
-		}
+        if (empty($this->_wcOrder->shipping_address_1)) {
+            $customer_shipping_address = $customer_billing_address;
+        } else {
+            $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
+        }
         $shipping_address = new \Iyzipay\Model\Address();
         $shipping_address->setContactName($shipping_full_name);
         $shipping_address->setCity($shipping_city);
