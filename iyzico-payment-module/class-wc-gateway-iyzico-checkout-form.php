@@ -3,7 +3,7 @@
  * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
  * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: KahveDigital
  * Author URI: http://kahvedigital.com
  * Domain Path: /i18n/languages/
@@ -102,7 +102,7 @@ function woocommerce_iyzico_checkout_from_init() {
             $this->id = 'iyzicocheckoutform';
             $this->method_title = __('iyzico Checkout form', 'iyzico-woocommerce-checkout-form');
             $this->method_description = __('You can get your API ID and Secret key values from https://merchant.iyzipay.com/settings.', 'iyzico-woocommerce-checkout-form');
-            $this->icon = plugins_url('/iyzico-woocommerce-checkout-form/assets/img/cards.png', dirname(__FILE__));
+            $this->icon = plugins_url('/iyzico-payment-module/assets/img/cards.png', dirname(__FILE__));
             $this->has_fields = false;
             $this->order_button_text = __('Proceed to iyzico checkout', 'iyzico-woocommerce-checkout-form');
             $this->supports = array('products', 'refunds');
@@ -182,10 +182,7 @@ function woocommerce_iyzico_checkout_from_init() {
         }
 
         function is_valid_for_use() {
-            if (!in_array(get_woocommerce_currency(), apply_filters('woocommerce_paypal_supported_currencies', array('TRY', 'GBP', 'USD', 'EUR', 'IRR')))) {
-                return false;
-            }
-
+     
             return true;
         }
 
@@ -281,8 +278,9 @@ function woocommerce_iyzico_checkout_from_init() {
                 return true;
             } else {
                 $order->add_order_note(__('Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
-                return new WP_Error('broke', __("Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form"));
-                return false;
+			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
+			return false;
+            
             }
         }
 
@@ -507,12 +505,7 @@ class iyzicocheckoutformGateway {
 
     function generatePaymentToken() {
         global $wpdb;
-        $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
-
-        if (!in_array($this->_wcOrder->get_order_currency(), $valid_currency)) {
-            $response = __('Please make sure that the currency value in your payment request is one of the (USD, EUR, GBP, IRR, TL) valid values.', 'iyzico-woocommerce-checkout-form');
-            return $response;
-        }
+     
 
         require_once 'IyzipayBootstrap.php';
 
@@ -542,7 +535,7 @@ class iyzicocheckoutformGateway {
         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
         $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION);
         $request->setCallbackUrl($return_url);
-        $request->setCurrency($this->get_currency_constant($this->_wcOrder->get_order_currency()));
+        $request->setCurrency($this->_wcOrder->get_order_currency());
 
         $first_name = !empty($this->_wcOrder->billing_first_name) ? $this->_wcOrder->billing_first_name : 'NOT PROVIDED';
         $last_name = !empty($this->_wcOrder->billing_last_name) ? $this->_wcOrder->billing_last_name : 'NOT PROVIDED';
@@ -603,11 +596,11 @@ class iyzicocheckoutformGateway {
 
         $shipping_full_name = $this->_wcOrder->get_formatted_shipping_full_name();
         $shipping_full_name = empty($shipping_full_name) ? $shipping_full_name : "NOT PROVIDED";
-        if (empty($this->_wcOrder->shipping_address_1)) {
-            $customer_shipping_address = $customer_billing_address;
-        } else {
-            $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
-        }
+     	if(empty($this->_wcOrder->shipping_address_1)){
+						$customer_shipping_address=$customer_billing_address;
+		}else{
+			   $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
+		}
         $shipping_address = new \Iyzipay\Model\Address();
         $shipping_address->setContactName($shipping_full_name);
         $shipping_address->setCity($shipping_city);
@@ -694,26 +687,5 @@ class iyzicocheckoutformGateway {
         }
     }
 
-    function get_currency_constant($currencyCode) {
-        $currency = \Iyzipay\Model\Currency::TL;
-        switch ($currencyCode) {
-            case "TRY":
-                $currency = \Iyzipay\Model\Currency::TL;
-                break;
-            case "USD":
-                $currency = \Iyzipay\Model\Currency::USD;
-                break;
-            case "GBP":
-                $currency = \Iyzipay\Model\Currency::GBP;
-                break;
-            case "EUR":
-                $currency = \Iyzipay\Model\Currency::EUR;
-                break;
-            case "IRR":
-                $currency = \Iyzipay\Model\Currency::IRR;
-                break;
-        }
-        return $currency;
-    }
 
 }
