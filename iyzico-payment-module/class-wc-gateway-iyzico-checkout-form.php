@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
+ * Plugin Name:WooCommerce 3+ iyzico checkout form Payment Gateway
  * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
  * Version: 1.0.4
@@ -46,25 +46,25 @@ function iyzico_activate() {
     $charset_collate = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		customer_id int NOT NULL,
-		card_key VARCHAR(50),
-		iyzico_api VARCHAR(100),
-		PRIMARY KEY  (id)
-	) $charset_collate;";
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        customer_id int NOT NULL,
+        card_key VARCHAR(50),
+        iyzico_api VARCHAR(100),
+        PRIMARY KEY  (id)
+    ) $charset_collate;";
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta($sql);
     $table_name2 = $wpdb->prefix . 'iyzico_order_refunds';
     $sql = "CREATE TABLE $table_name2 (
-		iyzico_order_refunds_id INT(11) NOT NULL AUTO_INCREMENT,
-		order_id INT(11) NOT NULL,
-		item_id INT(11) NOT NULL,
-		payment_transaction_id INT(11) NOT NULL,
-		paid_price VARCHAR(50),
-		total_refunded VARCHAR(50),
-		PRIMARY KEY  (iyzico_order_refunds_id)
-	) $charset_collate;";
+        iyzico_order_refunds_id INT(11) NOT NULL AUTO_INCREMENT,
+        order_id INT(11) NOT NULL,
+        item_id INT(11) NOT NULL,
+        payment_transaction_id INT(11) NOT NULL,
+        paid_price VARCHAR(50),
+        total_refunded VARCHAR(50),
+        PRIMARY KEY  (iyzico_order_refunds_id)
+    ) $charset_collate;";
     dbDelta($sql);
 
     add_option('iyzico_db_version', $iyzico_db_version);
@@ -278,8 +278,8 @@ function woocommerce_iyzico_checkout_from_init() {
                 return true;
             } else {
                 $order->add_order_note(__('Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login', 'iyzico-woocommerce-checkout-form'));
-			return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
-			return false;
+            return new WP_Error( 'broke', __( "Please use the iyzico panel for partial refund. iyzico Panel link https://merchant.iyzipay.com/login", "iyzico-woocommerce-checkout-form" ) );
+            return false;
             
             }
         }
@@ -305,8 +305,8 @@ function woocommerce_iyzico_checkout_from_init() {
             return array(
                 'result' => 'success',
                 'redirect' => add_query_arg(
-                        'order', $order->id, add_query_arg(
-                                'key', $order->order_key, $checkout_payment_url
+                        'order', $order->get_id(), add_query_arg(
+                                'key', $order->get_order_key(), $checkout_payment_url
                         )
                 )
             );
@@ -529,9 +529,9 @@ class iyzicocheckoutformGateway {
         $siteLang = explode('_', get_locale());
         $locale = ($siteLang[0] == "tr") ? Iyzipay\Model\Locale::TR : Iyzipay\Model\Locale::EN;
         $request->setLocale($locale);
-        $request->setConversationId(uniqid() . '_' . $this->_wcOrder->id);
+        $request->setConversationId(uniqid() . '_' . $this->_wcOrder->get_id());
         $request->setPaidPrice(round($order_amount, 2));
-        $request->setBasketId($this->_wcOrder->id);
+        $request->setBasketId($this->_wcOrder->get_id());
         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
         $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION);
         $request->setCallbackUrl($return_url);
@@ -567,7 +567,7 @@ class iyzicocheckoutformGateway {
         }
 
         $buyer = new \Iyzipay\Model\Buyer();
-        $buyer->setId($this->_wcOrder->id);
+        $buyer->setId($this->_wcOrder->get_id());
         $buyer->setName($first_name);
         $buyer->setSurname($last_name);
         $buyer->setGsmNumber($phone);
@@ -596,11 +596,11 @@ class iyzicocheckoutformGateway {
 
         $shipping_full_name = $this->_wcOrder->get_formatted_shipping_full_name();
         $shipping_full_name = empty($shipping_full_name) ? $shipping_full_name : "NOT PROVIDED";
-     	if(empty($this->_wcOrder->shipping_address_1)){
-						$customer_shipping_address=$customer_billing_address;
-		}else{
-			   $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
-		}
+        if(empty($this->_wcOrder->shipping_address_1)){
+                        $customer_shipping_address=$customer_billing_address;
+        }else{
+               $customer_shipping_address = trim($this->_wcOrder->shipping_address_1) . " " . trim($this->_wcOrder->shipping_address_2);
+        }
         $shipping_address = new \Iyzipay\Model\Address();
         $shipping_address->setContactName($shipping_full_name);
         $shipping_address->setCity($shipping_city);
@@ -674,7 +674,7 @@ class iyzicocheckoutformGateway {
         } else {
             $response = \Iyzipay\Model\CheckoutFormInitialize::create($request, $options);
 
-            update_post_meta($this->_wcOrder->id, 'payment_form_initialization', json_encode(array(
+            update_post_meta($this->_wcOrder->get_id(), 'payment_form_initialization', json_encode(array(
                 'api_request' => $request->toJsonString(),
                 'api_response' => $response->getRawResult(),
                 'processing_timestamp' => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
