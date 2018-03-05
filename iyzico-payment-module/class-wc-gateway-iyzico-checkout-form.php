@@ -12,7 +12,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-define('API_URL_FORM', 'https://api.iyzipay.com');
+define('API_URL_FORM', 'https://sandbox-api.iyzipay.com');
 global $iyzico_db_version;
 $iyzico_db_version = '1.0';
 
@@ -101,7 +101,7 @@ function woocommerce_iyzico_checkout_from_init() {
         public function __construct() {
             $this->id = 'iyzicocheckoutform';
             $this->method_title = __('iyzico Checkout form', 'iyzico-woocommerce-checkout-form');
-            $this->method_description = __('You can get your API ID and Secret key values from https://merchant.iyzipay.com/settings.', 'iyzico-woocommerce-checkout-form');
+            $this->method_description = __('You can get your API ID and Secret key values from https://sandbox-merchant.iyzipay.com/settings.', 'iyzico-woocommerce-checkout-form');
             $this->icon = plugins_url('/iyzico-payment-module/assets/img/cards.png', dirname(__FILE__));
             $this->has_fields = false;
             $this->order_button_text = __('Proceed to iyzico checkout', 'iyzico-woocommerce-checkout-form');
@@ -128,6 +128,7 @@ function woocommerce_iyzico_checkout_from_init() {
             } else {
                 add_action('woocommerce_update_options_payment_gateways', array($this, 'process_admin_options'));
             }
+
 
             add_action('woocommerce_receipt_iyzicocheckoutform', array($this, 'receipt_page'));
 
@@ -248,14 +249,15 @@ function woocommerce_iyzico_checkout_from_init() {
                     $request->setCurrency($order->get_order_currency());
                     $request->setIp($_SERVER['REMOTE_ADDR']);
                     $response = \Iyzipay\Model\Refund::create($request, $options);
+
                     if ($response->getStatus() == "failure") {
                         update_post_meta($order_id, 'refunded_item', json_encode(array(
-                            'api_request' => $request->toJsonString(),
-                            'api_response' => $response->getRawResult(),
-                            'processing_timestamp' => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
-                            'transaction_status' => $response->getStatus(),
-                            'created' => date('Y-m-d H:i:s'),
-                            'note' => $response->getErrorMessage(),
+                            'api_request'               => $request->toJsonString(),
+                            'api_response'              => esc_sql($response->getRawResult()),
+                            'processing_timestamp'      => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
+                            'transaction_status'        => esc_sql($response->getStatus()),
+                            'created'                   => date('Y-m-d H:i:s'),
+                            'note'                      => esc_sql($response->getErrorMessage()),
                         )));
 
                         return false;
@@ -267,11 +269,11 @@ function woocommerce_iyzico_checkout_from_init() {
                         );
                         update_post_meta($order_id, 'refunded_item_' . $item_id, json_encode(array(
                             'api_request' => $request->toJsonString(),
-                            'api_response' => $response->getRawResult(),
+                            'api_response' => esc_sql($response->getRawResult()),
                             'processing_timestamp' => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
-                            'transaction_status' => $response->getStatus(),
+                            'transaction_status' => esc_sql($response->getStatus()),
                             'created' => date('Y-m-d H:i:s'),
-                            'note' => $response->getErrorMessage(),
+                            'note' => esc_sql($response->getErrorMessage()),
                         )));
                     }
                 }
@@ -312,7 +314,7 @@ function woocommerce_iyzico_checkout_from_init() {
             );
         }
 
-        function check_iyzicocheckoutform_response() {
+        function check_iyzicocheckoutform_response() {            
             global $wpdb;
             global $woocommerce;
             $order_id = '';
@@ -323,6 +325,8 @@ function woocommerce_iyzico_checkout_from_init() {
                 require_once 'IyzipayBootstrap.php';
 
                 $token = $_POST['token'];
+
+
                 if (empty($token)) {
                     throw new \Exception("Token not found");
                 }
@@ -343,35 +347,36 @@ function woocommerce_iyzico_checkout_from_init() {
 
                 $response = \Iyzipay\Model\CheckoutForm::retrieve($request, $options);
 
+
                 if (empty($_REQUEST['wc-api']) || (!empty($_REQUEST['wc-api']) && 'WC_Gateway_Iyzicocheckoutform' !== $_REQUEST['wc-api'])) {
                     throw new \Exception('Invalid request');
                 }
 
-                $api_response = $response->getStatus();
+                $api_response = esc_sql($response->getStatus());
                 if (empty($api_response) || 'success' != $api_response) {
                     throw new \Exception($response->getErrorMessage());
                 }
 
-                $payment_status = $response->getPaymentStatus();
+                $payment_status = esc_sql($response->getPaymentStatus());
                 if (empty($api_response) || 'SUCCESS' != $payment_status) {
                     throw new \Exception($response->getErrorMessage());
                 }
 
-                $token = $response->getToken();
+                $token = esc_sql($response->getToken());
                 if (empty($token)) {
                     throw new \Exception("Invalid Token");
                 }
 
-                $transaction_object = $response->getBasketId();
+                $transaction_object = esc_sql($response->getBasketId());
                 $order = new WC_Order($response->getBasketId());
 
                 update_post_meta($transaction_object, 'get_auth', json_encode(array(
-                    'api_request' => $request->toJsonString(),
-                    'api_response' => $response->getRawResult(),
+                    'api_request' => esc_sql($request->toJsonString()),
+                    'api_response' => esc_sql($response->getRawResult()),
                     'processing_timestamp' => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
-                    'transaction_status' => $response->getStatus(),
+                    'transaction_status' => esc_sql($response->getStatus()),
                     'created' => date('Y-m-d H:i:s'),
-                    'note' => ($response->getStatus() != 'success') ? $response->getErrorMessage() : ''
+                    'note' => ($response->getStatus() != 'success') ? esc_sql($response->getErrorMessage()) : ''
                 )));
 
                 if ($order->post_status != 'wc-pending' || $order->post_status == 'wc-processing') {
@@ -390,21 +395,25 @@ function woocommerce_iyzico_checkout_from_init() {
 
                         $installment = $response->getInstallment();
                         if (!empty($installment) && $installment > 1) {
-                            $installment_fee = $response->getPaidPrice() - $response->getPrice();
-                            $order_fee = new stdClass();
-                            $order_fee->id = 'Installment Fee';
-                            $order_fee->name = __('Installment Fee', 'iyzico-woocommerce-checkout-form');
-                            $order_fee->amount = floatval($installment_fee);
+
+                            $installment_fee    = $response->getPaidPrice() - $response->getPrice();
+                            $installment_fee    = esc_sql($installment_fee);
+                            $order_fee          = new stdClass();
+                            $order_fee->id      = 'Installment Fee';
+                            $order_fee->name    = __('Installment Fee', 'iyzico-woocommerce-checkout-form');
+                            $order_fee->amount  = floatval($installment_fee);
                             $order_fee->taxable = false;
                             $fee_id = $order->add_fee($order_fee);
                             $order->calculate_totals(true);
 
-                            update_post_meta($order_id, 'iyzi_no_of_installment', $response->getInstallment());
-                            update_post_meta($order_id, 'iyzi_installment_fee', $installment_fee);
+                         
+
+                            update_post_meta($order_id, 'iyzi_no_of_installment', esc_sql($response->getInstallment()));
+                            update_post_meta($order_id, 'iyzi_installment_fee', esc_sql($installment_fee));
                         }
 
                         $order->payment_complete();
-                        $order->add_order_note(__('Payment successful.', 'iyzico-woocommerce-checkout-form') . '<br/>' . __('Payment ID', 'iyzico-woocommerce-checkout-form') . ': ' . $response->getPaymentId());
+                        $order->add_order_note(__('Payment successful.', 'iyzico-woocommerce-checkout-form') . '<br/>' . __('Payment ID', 'iyzico-woocommerce-checkout-form') . ': ' . esc_sql($response->getPaymentId()));
                         $woocommerce->cart->empty_cart();
                     } else {
                         $this->msg['class'] = 'woocommerce-error';
@@ -418,31 +427,36 @@ function woocommerce_iyzico_checkout_from_init() {
                 if ($transauthorised == false) {
                     $order->update_status('failed');
                 }
-                $customer_id = $order->customer_user;
+                $customer_id = esc_sql($order->customer_user);
                 if (!empty($customer_id)) {
-                    $card_user_key = $response->GetcardUserKey();
-                    $merchant_api_id = $this->api_id;
-                    $table_name = $wpdb->prefix . 'iyzico_checkout_form_user';
-                    $iyzico_card_key = $wpdb->get_row("SELECT card_key, iyzico_api, customer_id FROM $table_name WHERE customer_id=$customer_id");
+                    
+                    $card_user_key      = esc_sql($response->GetcardUserKey());
+                    $merchant_api_id    = $this->api_id;
+                    $table_name         = $wpdb->prefix . 'iyzico_checkout_form_user';
+                    $iyzico_card_key    = $wpdb->get_row("SELECT card_key, iyzico_api, customer_id FROM $table_name WHERE customer_id= '$customer_id'");
+
                     if (empty($iyzico_card_key->customer_id)) {
                         $wpdb->insert(
                                 $table_name, array(
-                            'customer_id' => $customer_id,
-                            'card_key' => $card_user_key,
-                            'iyzico_api' => $merchant_api_id,
+                            'customer_id'   => $customer_id,
+                            'card_key'      => $card_user_key,
+                            'iyzico_api'    => $merchant_api_id,
                                 )
                         );
+
                     } else {
-                        $card_user_key = $response->GetcardUserKey();
-                        $merchant_api_id = $this->api_id;
-                        $table_name = $wpdb->prefix . 'iyzico_checkout_form_user';
+                        
+                        $card_user_key      = esc_sql($response->GetcardUserKey());
+                        $merchant_api_id    = $this->api_id;
+                        $table_name         = $wpdb->prefix . 'iyzico_checkout_form_user';
 
                         $wpdb->update(
-                                $table_name, array(
-                            'customer_id' => $customer_id,
-                            'card_key' => $card_user_key,
-                            'iyzico_api' => $merchant_api_id,
-                                ), array('customer_id' => $customer_id)
+                            $table_name, array(
+                            'customer_id'   => $customer_id,
+                            'card_key'      => $card_user_key,
+                            'iyzico_api'    => $merchant_api_id,
+                            ),
+                            array('customer_id' => $customer_id)
                         );
                     }
                 }
@@ -453,13 +467,13 @@ function woocommerce_iyzico_checkout_from_init() {
                     $table_name = $wpdb->prefix . 'iyzico_order_refunds';
 
                     $wpdb->insert(
-                            $table_name, array(
-                        'order_id' => $response->getBasketId(),
-                        'paid_price' => $item_transaction->getPaidPrice(),
-                        'item_id' => $item_transaction->getItemId(),
-                        'payment_transaction_id' => $item_transaction->getPaymentTransactionId(),
-                        'total_refunded' => 0
-                            )
+                        $table_name, array(
+                        'order_id'                  => esc_sql($response->getBasketId()),
+                        'paid_price'                => esc_sql($item_transaction->getPaidPrice()),
+                        'item_id'                   => esc_sql($item_transaction->getItemId()),
+                        'payment_transaction_id'    => esc_sql($item_transaction->getPaymentTransactionId()),
+                        'total_refunded'            => 0
+                        )
                     );
                 }
 
@@ -524,6 +538,7 @@ class iyzicocheckoutformGateway {
         $order_amount = $this->_wcOrder->order_total;
         $checkout_orderurl = $this->_wcOrder->get_checkout_order_received_url();
         $return_url = add_query_arg('wc-api', 'WC_Gateway_Iyzicocheckoutform', $checkout_orderurl);
+        
         $request = new \Iyzipay\Request\CreateCheckoutFormInitializeRequest();
 
         $siteLang = explode('_', get_locale());
@@ -554,10 +569,10 @@ class iyzicocheckoutformGateway {
 
         $customer_billing_address = trim($this->_wcOrder->billing_address_1) . " " . trim($this->_wcOrder->billing_address_2);
         $customer_billing_address = !empty($customer_billing_address) ? $customer_billing_address : "NOT PROVIDED";
-        $customer_id = $this->_wcOrder->customer_user;
+        $customer_id = esc_sql($this->_wcOrder->customer_user);
         if (!empty($customer_id)) {
             $table_name = $wpdb->prefix . 'iyzico_checkout_form_user';
-            $iyzico_card_key = $wpdb->get_row("SELECT card_key, iyzico_api, customer_id FROM $table_name WHERE customer_id=$customer_id");
+            $iyzico_card_key = $wpdb->get_row("SELECT card_key, iyzico_api, customer_id FROM $table_name WHERE customer_id='$customer_id'");
 
 
             if ($iyzico_card_key->iyzico_api == $api_id) {
@@ -675,12 +690,12 @@ class iyzicocheckoutformGateway {
             $response = \Iyzipay\Model\CheckoutFormInitialize::create($request, $options);
 
             update_post_meta($this->_wcOrder->id, 'payment_form_initialization', json_encode(array(
-                'api_request' => $request->toJsonString(),
-                'api_response' => $response->getRawResult(),
-                'processing_timestamp' => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
-                'transaction_status' => $response->getStatus(),
-                'created' => date('Y-m-d H:i:s'),
-                'note' => ($response->getStatus() != 'success') ? $response->getErrorMessage() : ''
+                'api_request'           => $request->toJsonString(),
+                'api_response'          => esc_sql($response->getRawResult()),
+                'processing_timestamp'  => date('Y-m-d H:i:s', $response->getSystemTime() / 1000),
+                'transaction_status'    => esc_sql($response->getStatus()),
+                'created'               => date('Y-m-d H:i:s'),
+                'note'                  => ($response->getStatus() != 'success') ? $response->getErrorMessage() : ''
             )));
 
             return $response;
