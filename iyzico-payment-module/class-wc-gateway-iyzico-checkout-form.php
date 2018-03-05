@@ -3,7 +3,7 @@
  * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
  * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
- * Version: 1.0.4
+ * Version: 1.0.6
  * Author: KahveDigital
  * Author URI: http://kahvedigital.com
  * Domain Path: /i18n/languages/
@@ -12,7 +12,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-define('API_URL_FORM', 'https://sandbox-api.iyzipay.com');
+define('API_URL_FORM', 'https://api.iyzipay.com');
 global $iyzico_db_version;
 $iyzico_db_version = '1.0';
 
@@ -529,7 +529,7 @@ class iyzicocheckoutformGateway {
         $secret_key = $this->_pluginSettings['live_form_secret_key'];
 
         $cart_total = 0;
-
+		$iyzico_version ="1.0.6";
         $options = new \Iyzipay\Options();
         $options->setApiKey($api_id);
         $options->setSecretKey($secret_key);
@@ -550,6 +550,7 @@ class iyzicocheckoutformGateway {
         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
         $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION);
         $request->setCallbackUrl($return_url);
+		$request->setPaymentSource("WOOCOMMERCE-".$iyzico_version);
         $request->setCurrency($this->_wcOrder->get_order_currency());
 
         $first_name = !empty($this->_wcOrder->billing_first_name) ? $this->_wcOrder->billing_first_name : 'NOT PROVIDED';
