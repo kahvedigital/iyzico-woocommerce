@@ -3,7 +3,7 @@
  * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
  * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
- * Version: 1.0.4
+ * Version: 1.0.6
  * Author: KahveDigital
  * Author URI: http://kahvedigital.com
  * Domain Path: /i18n/languages/
