@@ -3,7 +3,7 @@
  * Plugin Name:WooCommerce iyzico checkout form Payment Gateway
  * Plugin URI: https://www.kahvedigital.com
  * Description: iyzico Payment gateway for woocommerce
- * Version: 1.0.6
+ * Version: 1.0.4
  * Author: KahveDigital
  * Author URI: http://kahvedigital.com
  * Domain Path: /i18n/languages/
@@ -401,7 +401,7 @@ function woocommerce_iyzico_checkout_from_init() {
                             $order_fee          = new stdClass();
                             $order_fee->id      = 'Installment Fee';
                             $order_fee->name    = __('Installment Fee', 'iyzico-woocommerce-checkout-form');
-                            $order_fee->amount  = floatval($installment_fee);
+                            $order_fee->amount  = $installment_fee;
                             $order_fee->taxable = false;
                             $fee_id = $order->add_fee($order_fee);
                             $order->calculate_totals(true);
@@ -409,7 +409,7 @@ function woocommerce_iyzico_checkout_from_init() {
                          
 
                             update_post_meta($order_id, 'iyzi_no_of_installment', esc_sql($response->getInstallment()));
-                            update_post_meta($order_id, 'iyzi_installment_fee', esc_sql($installment_fee));
+                            update_post_meta($order_id, 'iyzi_installment_fee', $installment_fee);
                         }
 
                         $order->payment_complete();
@@ -529,7 +529,7 @@ class iyzicocheckoutformGateway {
         $secret_key = $this->_pluginSettings['live_form_secret_key'];
 
         $cart_total = 0;
-		$iyzico_version ="1.0.6";
+
         $options = new \Iyzipay\Options();
         $options->setApiKey($api_id);
         $options->setSecretKey($secret_key);
@@ -550,7 +550,6 @@ class iyzicocheckoutformGateway {
         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
         $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION);
         $request->setCallbackUrl($return_url);
-		$request->setPaymentSource("WOOCOMMERCE-".$iyzico_version);
         $request->setCurrency($this->_wcOrder->get_order_currency());
 
         $first_name = !empty($this->_wcOrder->billing_first_name) ? $this->_wcOrder->billing_first_name : 'NOT PROVIDED';
