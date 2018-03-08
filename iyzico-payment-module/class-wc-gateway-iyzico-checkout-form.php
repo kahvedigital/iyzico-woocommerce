@@ -529,7 +529,7 @@ class iyzicocheckoutformGateway {
         $secret_key = $this->_pluginSettings['live_form_secret_key'];
 
         $cart_total = 0;
-
+	$iyzico_version ="1.0.6";
         $options = new \Iyzipay\Options();
         $options->setApiKey($api_id);
         $options->setSecretKey($secret_key);
@@ -548,7 +548,7 @@ class iyzicocheckoutformGateway {
         $request->setPaidPrice(round($order_amount, 2));
         $request->setBasketId($this->_wcOrder->id);
         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
-        $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION);
+        $request->setPaymentSource("WOOCOMMERCE-" . WOOCOMMERCE_VERSION .'-'. $iyzico_version);
         $request->setCallbackUrl($return_url);
         $request->setCurrency($this->_wcOrder->get_order_currency());
 
