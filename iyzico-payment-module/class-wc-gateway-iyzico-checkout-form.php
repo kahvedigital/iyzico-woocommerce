@@ -396,8 +396,7 @@ function woocommerce_iyzico_checkout_from_init() {
                         $installment = $response->getInstallment();
                         if (!empty($installment) && $installment > 1) {
 
-                            $installment_fee    = $response->getPaidPrice() - $response->getPrice();
-                            $installment_fee    = esc_sql($installment_fee);
+                            $installment_fee    = $response->getPaidPrice() - $response->getPrice();    
                             $order_fee          = new stdClass();
                             $order_fee->id      = 'Installment Fee';
                             $order_fee->name    = __('Installment Fee', 'iyzico-woocommerce-checkout-form');
