@@ -101,7 +101,7 @@ function woocommerce_iyzico_checkout_from_init() {
         public function __construct() {
             $this->id = 'iyzicocheckoutform';
             $this->method_title = __('iyzico Checkout form', 'iyzico-woocommerce-checkout-form');
-            $this->method_description = __('You can get your API ID and Secret key values from https://sandbox-merchant.iyzipay.com/settings.', 'iyzico-woocommerce-checkout-form');
+            $this->method_description = __('You can get your API ID and Secret key values from https://merchant.iyzipay.com/settings.', 'iyzico-woocommerce-checkout-form');
             $this->icon = plugins_url('/iyzico-payment-module/assets/img/cards.png', dirname(__FILE__));
             $this->has_fields = false;
             $this->order_button_text = __('Proceed to iyzico checkout', 'iyzico-woocommerce-checkout-form');
